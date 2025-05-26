@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Online Python Compiler</title>
+  <link rel="icon" type="image/png" href="media/favicon.png">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <div style="text-align: center; margin-bottom: 10px;">
+    <img src="media/logo.png" alt="Python Logo" width="64" height="64" style="vertical-align: middle;">
+  </div>
+
+  <h2>Online Python Compiler</h2>
+
+  <div class="container">
+    <!-- Editor (left) -->
+    <div class="editor">
+      <textarea id="code" placeholder="Type Python code here...">print("Hello from FastAPI!")</textarea>
+    </div>
+
+    <!-- Output and Errors (right) -->
+    <div class="output-area">
+      <div>
+        <h3>Output:</h3>
+        <pre id="stdout" class="output-box"></pre>
+      </div>
+      <div>
+        <h3>Errors:</h3>
+        <pre id="stderr" class="error-box"></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Variables below -->
+  <div class="variables-wrapper">
+    <h3>Variables:</h3>
+    <pre id="variables" class="vars-box"></pre>
+  </div>
+</body>
+</html>
