@@ -1,27 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Online Python Compiler</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- ✅ SEO Meta Tags -->
+  <title>Online Python Compiler - Run Python Code in Browser</title>
+  <meta name="description" content="Run Python code online with a fast, interactive compiler. Supports variables, functions, loops, and live output. No installation required.">
+  <meta name="keywords" content="online python compiler, run python online, python interpreter, python runner, fastapi code editor, browser python">
+  <meta name="author" content="Your Name or Brand">
+
+  <!-- ✅ Open Graph for social previews -->
+  <meta property="og:title" content="Online Python Compiler" />
+  <meta property="og:description" content="Run Python code in your browser with live output and variable tracking. No setup required." />
+  <meta property="og:image" content="https://yourdomain.com/media/logo.png" />
+  <meta property="og:url" content="https://yourdomain.com/" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Favicon and CSS -->
   <link rel="icon" type="image/png" href="media/favicon.png">
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script defer src="script.js"></script>
 </head>
+
 <body>
+  <!-- Logo -->
   <div style="text-align: center; margin-bottom: 10px;">
     <img src="media/logo.png" alt="Python Logo" width="64" height="64" style="vertical-align: middle;">
   </div>
 
-  <h2>Online Python Compiler</h2>
+  <!-- ✅ Headline and description -->
+  <h1>Online Python Compiler</h1>
+<p class="description">
+  Instantly run Python code in your browser with live output, error tracking, and variable inspection.
+  Powered by FastAPI. No installation required.
+</p>
 
+
+  <!-- Code and Output -->
   <div class="container">
-    <!-- Editor (left) -->
     <div class="editor">
       <textarea id="code" placeholder="Type Python code here...">print("Hello from FastAPI!")</textarea>
     </div>
 
-    <!-- Output and Errors (right) -->
     <div class="output-area">
       <div>
         <h3>Output:</h3>
@@ -34,7 +57,6 @@
     </div>
   </div>
 
-  <!-- Variables below -->
   <div class="variables-wrapper">
     <h3>Variables:</h3>
     <pre id="variables" class="vars-box"></pre>
