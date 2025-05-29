@@ -32,11 +32,8 @@
   </div>
 
   <!-- ✅ Headline and description -->
-  <h1>Online Python Compiler</h1>
-<p class="description">
-  Instantly run Python code in your browser with live output, error tracking, and variable inspection.
-  Powered by FastAPI. No installation required.
-</p>
+<h1>Online Python Compiler</h1>
+<p class="description">Run Python instantly. Live output, variables, input support.</p>
 
 
   <!-- Code and Output -->
@@ -57,9 +54,17 @@
     </div>
   </div>
 
+  <!-- Variables -->
   <div class="variables-wrapper">
     <h3>Variables:</h3>
     <pre id="variables" class="vars-box"></pre>
+  </div>
+
+  <!-- 🔁 Input prompt -->
+  <div id="input-section" style="display: none; margin-top: 30px;">
+    <h3 id="prompt-label"></h3>
+    <input type="text" id="input-value" placeholder="Type input..." />
+    <button id="submit-input">Submit</button>
   </div>
 </body>
 </html>

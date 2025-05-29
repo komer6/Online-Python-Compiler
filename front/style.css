@@ -6,7 +6,7 @@ body {
   padding: 30px;
 }
 
-h2, h3 {
+h1, h2, h3 {
   text-align: center;
   margin-bottom: 15px;
   color: #00b6a3;
@@ -20,7 +20,7 @@ h2, h3 {
   flex-wrap: wrap;
 }
 
-/* LEFT SIDE: Input */
+/* Editor */
 .editor {
   flex: 1 1 50%;
   min-width: 300px;
@@ -29,7 +29,7 @@ h2, h3 {
 textarea {
   width: 100%;
   height: 320px;
-  padding: 1px;
+  padding: 15px;
   font-family: 'Fira Code', monospace;
   font-size: 14px;
   background: #111111;
@@ -47,7 +47,7 @@ textarea:focus {
   background: #1a1a1a;
 }
 
-/* RIGHT SIDE: Output & Errors */
+/* Output & Error */
 .output-area {
   padding-left: 20px;
   flex: 1 1 45%;
@@ -70,21 +70,21 @@ textarea:focus {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-/* Output */
+/* Output Box */
 .output-box {
   background: #111111;
-  color: #0096ff; /* arrow blue */
+  color: #0096ff;
   border: 1px solid #005ea3;
 }
 
-/* Errors (KEEP RED) */
+/* Errors stay red */
 .error-box {
   background: #fff0f0;
   color: #c92a2a;
   border: 1px solid #ffcccc;
 }
 
-/* Variables Below */
+/* Variables */
 .variables-wrapper {
   margin-top: 2px;
 }
@@ -99,14 +99,56 @@ textarea:focus {
   font-size: 14px;
   white-space: pre-wrap;
 }
-/* New SEO headline (h1) and description (p) */
-h1 {
+
+/* Input Section */
+#input-section {
+  margin-top: 30px;
   text-align: center;
-  font-size: 2em;
-  margin-bottom: 10px;
-  color: #00b6a3;
 }
 
+#prompt-label {
+  color: #00b6a3;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+#input-value {
+  background: #111111;
+  color: #00b6a3;
+  border: 1px solid #007b7b;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 14px;
+  font-family: 'Fira Code', monospace;
+  width: 300px;
+  margin-right: 10px;
+  transition: border 0.3s ease;
+}
+
+#input-value:focus {
+  outline: none;
+  border-color: #00e6d2;
+  background: #1a1a1a;
+}
+
+/* Submit Button */
+#submit-input {
+  background: #00b6a3;
+  color: #0d0d0d;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#submit-input:hover {
+  background: #00e6d2;
+}
+
+/* SEO Heading & Description */
 .description {
   text-align: center;
   max-width: 700px;
@@ -115,7 +157,6 @@ h1 {
   color: #cccccc;
   line-height: 1.6;
 }
-
 
 /* Responsive behavior */
 @media (max-width: 768px) {
@@ -129,5 +170,10 @@ h1 {
 
   textarea {
     height: 280px;
+  }
+
+  #input-value {
+    width: 90%;
+    margin-bottom: 10px;
   }
 }

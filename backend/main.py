@@ -1,4 +1,4 @@
-# main.py
+#uvicorn main:app --host 127.0.0.1 --port 7677
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -19,27 +19,43 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.post("/run")
 async def run_code(request: Request):
     data = await request.json()
     code = data.get("code", "")
+    inputs = data.get("inputs", [])
 
     if not is_code_safe(code):
         return JSONResponse({
             "stdout": "",
             "stderr": "Error: Use of imports, function calls, or unsafe code is blocked.",
-            "variables": {}
+            "variables": {},
+            "needs_input": False
         })
 
     try:
         with tempfile.NamedTemporaryFile(mode="w+", suffix=".py", delete=False) as tmp:
             vars_path = tmp.name + ".vars.json"
 
-            # ✅ Write user's code FIRST
-            tmp.write(code + "\n")
-
-            # ✅ THEN append variable capture logic
+            # ✅ Inject fake input function and inputs list
             tmp.write("import json\n")
+            tmp.write(f"inputs = {json.dumps(inputs)}\n")
+            tmp.write("_input_index = 0\n")
+            tmp.write("def input(prompt=''):\n")
+            tmp.write("    global _input_index\n")
+            tmp.write("    print(prompt, end='')\n")
+            tmp.write("    if _input_index < len(inputs):\n")
+            tmp.write("        val = inputs[_input_index]\n")
+            tmp.write("        _input_index += 1\n")
+            tmp.write("        return val\n")
+            tmp.write("    else:\n")
+            tmp.write("        raise Exception('__NEED_INPUT__' + prompt)\n\n")
+
+            # ✅ User code
+            tmp.write(code + "\n")
+    
+            # ✅ Capture variable state
             tmp.write("try:\n")
             tmp.write("    __output_vars__ = {}\n")
             tmp.write("    for k, v in dict(locals()).items():\n")
@@ -58,15 +74,26 @@ async def run_code(request: Request):
             tmp.flush()
             tmp_path = tmp.name
 
+        # ✅ No timeout here
         result = subprocess.run(
             ["python", tmp_path],
             capture_output=True,
-            text=True,
-            timeout=2
-        )
+            text=True
+        )   
 
         stdout = result.stdout
         stderr = result.stderr
+        needs_input = False
+        prompt = None
+
+        # Detect input pause
+        if "__NEED_INPUT__" in stderr:
+            needs_input = True
+            try:
+                prompt = stderr.split("__NEED_INPUT__")[1].splitlines()[0]
+            except:
+                prompt = "Input required"
+            stderr = ""
 
         if os.path.exists(vars_path):
             with open(vars_path, "r") as f:
@@ -78,14 +105,12 @@ async def run_code(request: Request):
         else:
             vars_dict = {}
 
-    except subprocess.TimeoutExpired:
-        stdout = ""
-        stderr = "Error: Code execution timed out"
-        vars_dict = {}
     except Exception as e:
         stdout = ""
         stderr = f"Error: {e}"
         vars_dict = {}
+        needs_input = False
+        prompt = None
     finally:
         if os.path.exists(tmp_path):
             os.remove(tmp_path)
@@ -93,5 +118,7 @@ async def run_code(request: Request):
     return JSONResponse({
         "stdout": stdout,
         "stderr": stderr,
-        "variables": vars_dict
+        "variables": vars_dict,
+        "needs_input": needs_input,
+        "prompt": prompt
     })

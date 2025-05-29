@@ -1,5 +1,3 @@
-# var_extractor.py
-
 import ast
 
 def is_code_safe(code: str) -> bool:
@@ -24,7 +22,7 @@ def is_code_safe(code: str) -> bool:
                     if isinstance(node.func.value, ast.Name) and node.func.value.id in banned_names:
                         return False
 
-            if isinstance(node, ast.Name) and node.id in banned_names:
+            if isinstance(node, ast.Name) and node.id in banned_names:  
                 return False
 
             if isinstance(node, ast.Attribute) and node.attr in banned_names:
@@ -36,10 +34,6 @@ def is_code_safe(code: str) -> bool:
         return False
 
 def extract_variables_from_code(code: str) -> list[str]:
-    """
-    Extract top-level variable names from Python code.
-    Only includes simple assignments like x = 1, or a, b = ...
-    """
     try:
         tree = ast.parse(code)
         variables = []
